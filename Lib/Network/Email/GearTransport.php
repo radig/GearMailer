@@ -13,11 +13,11 @@ class GearTransport extends AbstractTransport {
         $client->addServer();
         $client->doBackground('sendMail', $state);
 
-        if ($gmclient->returnCode() != GEARMAN_SUCCESS) {
+        if ($client->returnCode() != GEARMAN_SUCCESS) {
             CakeLog::write('assync_job', $state);
             throw new CakeException('Não foi possível repassar dados ao Gearman');
         }
 
-        return $gmclient->returnCode();
+        return $client->returnCode();
     }
 }

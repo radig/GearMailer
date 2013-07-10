@@ -2,14 +2,15 @@
 /**
  * Gearman Worker
  */
+App::uses('CakeEmail', 'Network/Email');
 
-class SendEmailWorker{
+class SendEmailWorker {
     public $mailConfig = 'aws_ses';
 
     public function init() {
         $worker= new GearmanWorker();
         $worker->addServer();
-        $worker->addFunction("sendMail", "send");
+        $worker->addFunction("sendMail", array($this, "send"));
 
         while ($worker->work()) {
             if ($worker->returnCode() != GEARMAN_SUCCESS) {
@@ -19,13 +20,14 @@ class SendEmailWorker{
     }
 
     public function send(GearmanJob $job) {
-        $CakeMail = unserialize($job->workload());
+        $CakeEmail = unserialize($job->workload());
 
-        if (!is_a($CakeMail, 'CakeMail')) {
+        if (!is_a($CakeEmail, 'CakeEmail')) {
             throw new Exception('Parâmetro inválido passado como Email para Worker');
         }
 
-        $recipients = $CakeMail->to();
+        $recipients = $CakeEmail->to();
+        $CakeEmail->config($this->mailConfig);
 
         foreach ($recipients as $email => $name) {
             if (is_numeric($email)) {
@@ -34,12 +36,11 @@ class SendEmailWorker{
                 $email = array($email => $name);
             }
 
-            $CakeMail->to($email);
-            $CakeMail->config($this->mailConfig);
+            $CakeEmail->to($email);
 
             // envia as mensagens usando CakeEmail
-            if (!$CakeMail->send()) {
-                CakeLog::write('assync_mail', serialize($CakeMail));
+            if (!$CakeEmail->send()) {
+                CakeLog::write('assync_mail', serialize($CakeEmail));
 
                 $job->sendFail();
 
@@ -48,7 +49,7 @@ class SendEmailWorker{
         }
 
         // notifica sucesso
-        $job->sendComplete();
+        $job->sendComplete('Success');
 
         return true;
     }
