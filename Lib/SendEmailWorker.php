@@ -1,5 +1,9 @@
 <?php
-class SendEmailWorker {
+/**
+ * Gearman Worker
+ */
+
+class SendEmailWorker{
     public $mailConfig = 'aws_ses';
 
     public function init() {
@@ -11,8 +15,6 @@ class SendEmailWorker {
             if ($worker->returnCode() != GEARMAN_SUCCESS) {
                 throw new Exception('Falha em alguma parte do Gearman');
             }
-
-
         }
     }
 
