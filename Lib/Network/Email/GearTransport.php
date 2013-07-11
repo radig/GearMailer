@@ -14,7 +14,7 @@ class GearTransport extends AbstractTransport {
         $client->doBackground('sendMail', $state);
 
         if ($client->returnCode() != GEARMAN_SUCCESS) {
-            CakeLog::write('assync_job', $state);
+            CakeLog::write('assync_job', "Erro: ".$state);
             throw new CakeException('Não foi possível repassar dados ao Gearman');
         }
 

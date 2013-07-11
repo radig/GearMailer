@@ -40,7 +40,7 @@ class SendEmailWorker {
 
             // envia as mensagens usando CakeEmail
             if (!$CakeEmail->send()) {
-                CakeLog::write('assync_mail', serialize($CakeEmail));
+                CakeLog::write('assync_mail', "Erro: ".serialize($CakeEmail));
 
                 $job->sendFail();
 
