@@ -16,6 +16,10 @@ class SesTransport extends AbstractTransport {
 
         $sesEmail = SesClient::factory($config);
 
+        if (!empty($this->_config['dkim'])) {
+            $sesEmail->setIdentityDkimEnabled( ['Identity' => $this->_config['dkim'], 'DkimEnabled' => true] );
+        }
+
         $headers = $cakeEmail->getHeaders(['from', 'sender', 'replyTo', 'readReceipt', 'returnPath', 'to', 'cc', 'subject']);
         $headers = $this->_headersToString($headers);
 
