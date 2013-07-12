@@ -1,12 +1,22 @@
 <?php
+App::uses('CakeEmail', 'Network/Email');
 /**
  * Gearman Worker
+ *
+ * @package         radig.GearMailer.Lib
+ * @copyright       Radig Soluções em TI
+ * @author          Radig Dev Team - suporte@radig.com.br
+ * @version         2.0
+ * @license         Vide arquivo LICENCA incluído no pacote
+ * @link            http://radig.com.br
  */
-App::uses('CakeEmail', 'Network/Email');
-
 class SendEmailWorker {
     public $mailConfig = 'aws_ses';
-
+/**
+ * init gearman worker
+ *
+ * @throws Exception
+ */
     public function init() {
         $worker= new GearmanWorker();
         $worker->addServer();
@@ -18,7 +28,13 @@ class SendEmailWorker {
             }
         }
     }
-
+/**
+ * send email
+ *
+ * @param GearmanJob $job
+ * @return boolean
+ * @throws Exception
+ */
     public function send(GearmanJob $job) {
         $CakeEmail = unserialize($job->workload());
 
@@ -38,7 +54,7 @@ class SendEmailWorker {
 
             $CakeEmail->to($email);
 
-            // envia as mensagens usando CakeEmail
+            // Send message
             if (!$CakeEmail->send()) {
                 CakeLog::write('assync_mail', "Erro: ".serialize($CakeEmail));
 
@@ -47,9 +63,6 @@ class SendEmailWorker {
                 return false;
             }
         }
-
-        // notifica sucesso
-        $job->sendComplete('Success');
 
         return true;
     }

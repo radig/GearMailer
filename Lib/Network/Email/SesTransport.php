@@ -1,14 +1,26 @@
 <?php
-/**
- * GearTransport and Gearman Client
- */
 require APP . '/Vendor/AWS/autoload.php';
 
 App::uses('AbstractTransport', 'Network/Email');
+
 use Aws\Ses\SesClient;
-
+/**
+ * AmazonSes Transport
+ *
+ * @package         radig.GearMailer.Lib.Network.Email
+ * @copyright       Radig Soluções em TI
+ * @author          Radig Dev Team - suporte@radig.com.br
+ * @version         2.0
+ * @license         Vide arquivo LICENCA incluído no pacote
+ * @link            http://radig.com.br
+ */
 class SesTransport extends AbstractTransport {
-
+/**
+ * Send mail
+ *
+ * @param CakeEmail $email CakeEmail
+ * @return array
+ */
     public function send(CakeEmail $cakeEmail) {
         $config['key'] = $this->_config['username'];
         $config['secret'] = $this->_config['password'];
