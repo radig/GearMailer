@@ -2,7 +2,7 @@
 /**
  * GearTransport and Gearman Client
  */
-require APP . '/vendor/autoload.php';
+require APP . '/Vendor/AWS/autoload.php';
 
 App::uses('AbstractTransport', 'Network/Email');
 use Aws\Ses\SesClient;
