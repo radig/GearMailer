@@ -1,0 +1,71 @@
+h1. Radig GearMailer
+
+Plugin que permite o envio de emails utilizando Gearman e Amazon SES.
+
+h2. Requisitos
+
+* CakePHP 2.x
+* "AWS SDK for PHP 2":https://github.com/aws/aws-sdk-php
+* "Gearman":http://gearman.org/
+* Gearman PHP Extension
+
+h2. Instalação
+
+* Clone, faça o download ou coloque como submódulo este repositório em Plugins
+* Instale o aws-sdk em app/Vendor/AWS
+* Instale o Gearman e sua extenção em PHP
+
+h2. Uso
+
+Crie uma configuração de email com a seguinte configuração:
+
+<pre>
+    public $aws_ses = array(
+        'transport' => 'GearMailer.Gear'
+    );
+</pre>
+
+Crie uma segunda configuração de email chamada 'aws_ses':
+
+<pre>
+    public $aws_ses = array(
+        'transport' => 'GearMailer.Ses',
+        'region' => 'us-east-1',
+        'username' => 'sua chave AWS',
+        'password' => 'sua chave secreta AWS',
+        'dkim' => 'um email verificado' // Caso queira ativar o DKIM
+    );
+</pre>
+
+Caso deseje enviar via SMTP:
+
+<pre>
+    public $aws_ses = array(
+        'transport' => 'Smtp',
+        'host' => 'email-smtp.us-east-1.amazonaws.com',
+        'port' => 587,
+        'tls' => true,
+        'username' => 'sua chave SES',
+        'password' => 'sua chave secreta SES',
+    );
+</pre>
+
+Para ativar o Gearman Worker, execute no terminal
+
+bc. Console/cake GearMailer.EmailWorker
+
+Faça um envio de email normal utilizando o *CakeEmail*
+
+<pre>
+    $email = new CakeEmail('gearman')
+        ->from($from)
+        ->to($to)
+        ->subject($subject)
+        ->send();
+</pre>
+
+h2. Autor e Copyright
+
+* *Copyright 2011,2012* "*Radig - Soluções em TI*":http://www.radig.com.br
+* Licença MIT - Isto quer dizer que o código está disponível sem nenhuma garantia, ao mesmo tempo que
+você pode usa-lo de forma isolada ou em conjunto com seu próprio código, execeto onde tiver explícito o contrário.
