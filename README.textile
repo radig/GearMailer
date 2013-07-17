@@ -20,7 +20,7 @@ h2. Uso
 Crie uma configuração de email com a seguinte configuração:
 
 <pre>
-    public $aws_ses = array(
+    public $gearman = array(
         'transport' => 'GearMailer.Gear'
     );
 </pre>
@@ -66,6 +66,5 @@ Faça um envio de email normal utilizando o *CakeEmail*
 
 h2. Autor e Copyright
 
-* *Copyright 2011,2012* "*Radig - Soluções em TI*":http://www.radig.com.br
-* Licença MIT - Isto quer dizer que o código está disponível sem nenhuma garantia, ao mesmo tempo que
-você pode usa-lo de forma isolada ou em conjunto com seu próprio código, execeto onde tiver explícito o contrário.
+* *Copyright 2013* "*Radig - Soluções em TI*":http://www.radig.com.br
+* Licença MIT - Isto quer dizer que o código está disponível sem nenhuma garantia, ao mesmo tempo que você pode usa-lo de forma isolada ou em conjunto com seu próprio código, desde que mantenha os créditos, execeto onde tiver explícito o contrário.
