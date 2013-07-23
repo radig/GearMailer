@@ -6,8 +6,7 @@ App::uses('CakeEmail', 'Network/Email');
  * @package         radig.GearMailer.Lib
  * @copyright       Radig Soluções em TI
  * @author          Radig Dev Team - suporte@radig.com.br
- * @version         2.0
- * @license         Vide arquivo LICENCA incluído no pacote
+ * @license         MIT
  * @link            http://radig.com.br
  */
 class SendEmailWorker {

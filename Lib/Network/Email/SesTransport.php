@@ -1,6 +1,5 @@
 <?php
-require APP . '/Vendor/AWS/autoload.php';
-
+App::import('Vendor', 'GearMailer.autoload', false, array(), 'autoload.php');
 App::uses('AbstractTransport', 'Network/Email');
 
 use Aws\Ses\SesClient;
@@ -10,9 +9,8 @@ use Aws\Ses\SesClient;
  * @package         radig.GearMailer.Lib.Network.Email
  * @copyright       Radig Soluções em TI
  * @author          Radig Dev Team - suporte@radig.com.br
- * @version         2.0
- * @license         Vide arquivo LICENCA incluído no pacote
- * @link            http://radig.com.br
+ * @license         MIT
+ * @link            http://github.com/radig
  */
 class SesTransport extends AbstractTransport {
 /**
@@ -29,14 +27,14 @@ class SesTransport extends AbstractTransport {
         $sesEmail = SesClient::factory($config);
 
         if (!empty($this->_config['dkim'])) {
-            $sesEmail->setIdentityDkimEnabled( ['Identity' => $this->_config['dkim'], 'DkimEnabled' => true] );
+            $sesEmail->setIdentityDkimEnabled(array('Identity' => $this->_config['dkim'], 'DkimEnabled' => true));
         }
 
-        $headers = $cakeEmail->getHeaders(['from', 'sender', 'replyTo', 'readReceipt', 'returnPath', 'to', 'cc', 'subject']);
+        $headers = $cakeEmail->getHeaders(array('from', 'sender', 'replyTo', 'readReceipt', 'returnPath', 'to', 'cc', 'subject'));
         $headers = $this->_headersToString($headers);
 
         $lines = $cakeEmail->message();
-        $messages = [];
+        $messages = array();
         foreach ($lines as $line) {
             if ((!empty($line)) && ($line[0] === '.')) {
                 $messages[] = '.' . $line;
@@ -49,12 +47,12 @@ class SesTransport extends AbstractTransport {
         $raw_message = $headers . "\r\n\r\n" . $message . "\r\n\r\n\r\n";
 
         try {
-            $sesEmail->sendRawEmail(['RawMessage' => ['Data' => base64_encode($raw_message)]]);
+            $sesEmail->sendRawEmail(array('RawMessage' => array('Data' => base64_encode($raw_message))));
         } catch (MessageRejectedException $e) {
             CakeLog::write('assync_mail', print_r($e->getMessage(),true));
             return false;
         }
 
-        return ['headers' => $headers, 'message' => $message];
+        return array('headers' => $headers, 'message' => $message);
     }
 }

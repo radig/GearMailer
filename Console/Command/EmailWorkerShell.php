@@ -7,8 +7,7 @@ App::uses('SendEmailWorker', 'GearMailer.Lib');
  * @package         radig.GearMailer.Lib.Network.Email
  * @copyright       Radig Soluções em TI
  * @author          Radig Dev Team - suporte@radig.com.br
- * @version         2.0
- * @license         Vide arquivo LICENCA incluído no pacote
+ * @license         MIT
  * @link            http://radig.com.br
  */
 class EmailWorkerShell extends Shell {
