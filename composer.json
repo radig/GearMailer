@@ -1,5 +1,5 @@
 {
-    "name": "radig/GearMailer",
+    "name": "radig/gear-mailer",
     "description": "Send email assyncronous with Gearman and Amazon SES",
     "type": "cakephp-plugin",
     "license": "MIT",
