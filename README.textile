@@ -20,15 +20,16 @@ h2. Uso
 Crie uma configuração de email com a seguinte configuração:
 
 <pre>
-    public $gearman = array(
+    public $default = array(
         'transport' => 'GearMailer.Gear'
     );
 </pre>
 
-Crie uma segunda configuração de email chamada 'aws_ses':
+Crie uma segunda configuração de email chamada 'gearman', configurando o transporte desejado (qualquer um disponível no seu sistema).
+No exemplo abaixo, é usado o transporte Ses, disponível nesse plugin:
 
 <pre>
-    public $aws_ses = array(
+    public $gearman = array(
         'transport' => 'GearMailer.Ses',
         'region' => 'us-east-1',
         'username' => 'sua chave AWS',
@@ -37,10 +38,10 @@ Crie uma segunda configuração de email chamada 'aws_ses':
     );
 </pre>
 
-Caso deseje enviar via SMTP:
+Abaixo um exemplo utilizando um dos transportes padrões do CakePHP, Smtp:
 
 <pre>
-    public $aws_ses = array(
+    public $gearman = array(
         'transport' => 'Smtp',
         'host' => 'email-smtp.us-east-1.amazonaws.com',
         'port' => 587,
@@ -50,14 +51,16 @@ Caso deseje enviar via SMTP:
     );
 </pre>
 
-Para ativar o Gearman Worker, execute no terminal
+Para ativar o Gearman Worker, que é quem efetivamente enviará o email, execute no terminal
 
 bc. Console/cake GearMailer.EmailWorker
 
-Faça um envio de email normal utilizando o *CakeEmail*
+E deixe o console em execução.
+
+Agora basta fazer um envio de email normal utilizando o *CakeEmail*
 
 <pre>
-    $email = new CakeEmail('gearman')
+    $email = new CakeEmail()
         ->from($from)
         ->to($to)
         ->subject($subject)

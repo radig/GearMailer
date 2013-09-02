@@ -10,7 +10,7 @@ App::uses('CakeEmail', 'Network/Email');
  * @link            http://radig.com.br
  */
 class SendEmailWorker {
-    public $mailConfig = 'aws_ses';
+    public $mailConfig = 'gearman';
 /**
  * init gearman worker
  *
