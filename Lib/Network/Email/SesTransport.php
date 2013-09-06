@@ -1,5 +1,5 @@
 <?php
-App::import('Vendor', 'GearMailer.autoload', false, array(), 'autoload.php');
+App::import('Vendor', 'autoload', false, array(), 'autoload.php');
 App::uses('AbstractTransport', 'Network/Email');
 
 use Aws\Ses\SesClient;
