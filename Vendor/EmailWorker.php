@@ -24,7 +24,7 @@ class EmailWorker {
 
         while ($worker->work()) {
             if ($worker->returnCode() != GEARMAN_SUCCESS) {
-                throw new Exception('Falha em alguma parte do Gearman');
+                throw new Exception("Job failed");
             }
         }
     }
@@ -50,7 +50,7 @@ class EmailWorker {
         try {
             $SesEmail->sendRawEmail(array('RawMessage' => array('Data' => base64_encode($message))));
         } catch (MessageRejectedException $e) {
-            CakeLog::write('warning', print_r($e->getMessage(), true), 'assync_mail');
+            error_log('Can\'t enqueue job for message: ' . print_r($e->getMessage(), true));
             return false;
         }
 
