@@ -1,4 +1,5 @@
 <?php
+require(__DIR__ . '/../../../Vendor/autoload.php');
 require(__DIR__ . '/EmailWorker.php');
 
 $w = new EmailWorker();

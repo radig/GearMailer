@@ -41,7 +41,7 @@ class EmailWorker {
         $credentials = $this->_getCredentials($messageData);
         $message = $messageData['message'];
 
-        $SesEmail = new SesClient($credentials);
+        $SesEmail = SesClient::factory($credentials);
 
         if (!empty($credentials['dkim'])) {
             $SesEmail->setIdentityDkimEnabled(array('Identity' => $credentials['dkim'], 'DkimEnabled' => true));
