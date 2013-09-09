@@ -11,9 +11,20 @@ h2. Requisitos
 
 h2. Instalação
 
+h3. Utilizando Composer
+
+* Verifique se já tem a extensão do Gearman instalada e carregado no PHP
+* Na raiz do projeto, execute:
+
+<pre>
+    composer install radig/gear-mailer
+</pre>
+
+h3. Sem usar Composer
+
+* Verifique se já tem a extensão do Gearman instalada e carregado no PHP
 * Clone, faça o download ou coloque como submódulo este repositório em Plugins
 * Instale o aws-sdk em app/Vendor/AWS
-* Instale o Gearman e sua extenção em PHP
 
 h2. Uso
 
@@ -25,30 +36,14 @@ Crie uma configuração de email com a seguinte configuração:
     );
 </pre>
 
-Crie uma segunda configuração de email chamada 'gearman', configurando o transporte desejado (qualquer um disponível no seu sistema).
-No exemplo abaixo, é usado o transporte Ses, disponível nesse plugin:
+Em seu bootstrap.php, incluí as credenciais para envio de email através da API da AWS SES, da seguinte maneira:
 
 <pre>
-    public $gearman = array(
-        'transport' => 'GearMailer.Ses',
-        'region' => 'us-east-1',
-        'username' => 'sua chave AWS',
-        'password' => 'sua chave secreta AWS',
-        'dkim' => 'um email verificado' // Caso queira ativar o DKIM
-    );
-</pre>
-
-Abaixo um exemplo utilizando um dos transportes padrões do CakePHP, Smtp:
-
-<pre>
-    public $gearman = array(
-        'transport' => 'Smtp',
-        'host' => 'email-smtp.us-east-1.amazonaws.com',
-        'port' => 587,
-        'tls' => true,
-        'username' => 'sua chave SES',
-        'password' => 'sua chave secreta SES',
-    );
+Configure::write('GearMailer.credentials', array(
+    'username' => 'sua chave AWS',
+    'password' => 'sua chave secreta AWS',
+    // 'dkim' => 'um email verificado para assinatura'
+);
 </pre>
 
 Para ativar o Gearman Worker, que é quem efetivamente enviará o email, execute no terminal
