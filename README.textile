@@ -26,7 +26,7 @@ h3. Sem usar Composer
 * Clone, faça o download ou coloque como submódulo este repositório em Plugins
 * Instale o aws-sdk em app/Vendor/AWS
 
-h2. Uso
+h2. Configuração
 
 Crie uma configuração de email com a seguinte configuração:
 
@@ -36,7 +36,7 @@ Crie uma configuração de email com a seguinte configuração:
     );
 </pre>
 
-Em seu bootstrap.php, incluí as credenciais para envio de email através da API da AWS SES, da seguinte maneira:
+Em seu bootstrap.php, incluia as credenciais para envio de email através da API da AWS SES, da seguinte maneira:
 
 <pre>
 Configure::write('GearMailer.credentials', array(
@@ -46,13 +46,38 @@ Configure::write('GearMailer.credentials', array(
 );
 </pre>
 
-Para ativar o Gearman Worker, que é quem efetivamente enviará o email, execute no terminal
+Para ativar o Gearman Worker, que é quem efetivamente enviará o email, existem duas opções:
+
+h3. (1) Utilizando Systemd para gerenciar o processo (background)
+
+Edite o arquivo _Vendor/gearmailer.service_ alterando a linha 6 para um valor válido em sua instalação, saindo:
+
+bc. ExecStart=/usr/bin/php ABSOLUTE_PATH_TO_gearman_email_worker.php
+
+E deixando algo como:
+
+bc. ExecStart=/usr/bin/php /srv/www/app/Plugin/GearMailer/Vendor/gearman_email_worker.php
+
+Copie o arquivo resultante e configure no diretório de serviços de sua distribuição. No caso do OpenSUSE, cole o arquivo (como root)
+no diretório: _/usr/lib/systemd/system/gearmailer.service_
+
+Habilite o serviço:
+
+bc. systemctl enable gearmailer.service
+
+Inicie o serviço:
+
+bc. systemctl start gearmailer.service
+
+h3. (2) Executando o Console do CakePHP
 
 bc. Console/cake GearMailer.EmailWorker
 
 E deixe o console em execução.
 
-Agora basta fazer um envio de email normal utilizando o *CakeEmail*
+h2. Envio de Email
+
+Basta fazer um envio de email normal utilizando o *CakeEmail*
 
 <pre>
     $email = new CakeEmail()

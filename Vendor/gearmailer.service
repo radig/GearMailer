@@ -1,0 +1,12 @@
+[Unit]
+Description=GearMailer
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/php ABSOLUTE_PATH_TO_gearman_email_worker.php
+Restart=always
+StandardOutput=syslog
+SyslogIdentifier=GearMailer
+
+[Install]
+WantedBy=multi-user.target
