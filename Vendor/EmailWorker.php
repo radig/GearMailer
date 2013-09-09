@@ -65,7 +65,7 @@ class EmailWorker {
  */
     protected function _getCredentials($data) {
         $defaults = ['username' => null, 'password' => null, 'dkim' => null];
-        $credentials = array_merge($default, $data);
+        $credentials = array_merge($defaults, $data['credentials']);
 
         $credentials['key'] = $credentials['username'];
         $credentials['secret'] = $credentials['password'];
