@@ -1,6 +1,6 @@
 <?php
 App::uses('Shell', 'Console');
-App::uses('SendEmailWorker', 'GearMailer.Lib');
+App::uses('EmailWorker', 'GearMailer.Vendor');
 /**
  * Shell responsable to create and init the Gearman Worker
  *
@@ -18,13 +18,12 @@ class EmailWorkerShell extends Shell {
  *
  * @return void
  */
-    public function startup()
-    {
+    public function startup() {
         parent::startup();
-        $this->out(__d('GearmanWorker', 'Cake GearmanWorker Shell'));
+        $this->out(__d('gearman_worker', 'Cake GearmanWorker Shell'));
         $this->hr();
 
-        $this->EmailWorker = new SendEmailWorker();
+        $this->EmailWorker = new EmailWorker();
     }
 
 /**
@@ -32,8 +31,9 @@ class EmailWorkerShell extends Shell {
  *
  * @return void
  */
-    public function main()
-    {
+    public function main() {
+        $this->out(__d('gearman_worker', 'Working...'));
         $this->EmailWorker->init();
+        $this->out(__d('gearman_worker', 'Finishing.'));
     }
 }

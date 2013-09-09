@@ -1,5 +1,4 @@
 <?php
-App::uses('CakeEmail', 'Network/Email');
 /**
  * Gearman Worker
  *
@@ -10,7 +9,6 @@ App::uses('CakeEmail', 'Network/Email');
  * @link            http://radig.com.br
  */
 class SendEmailWorker {
-    public $mailConfig = 'gearman';
 /**
  * init gearman worker
  *

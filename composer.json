@@ -5,9 +5,6 @@
     "license": "MIT",
     "keywords": ["gearman", "mailer", "ses", "amazon_ses", "cakephp", "radig"],
     "homepage": "https://github.com/radig/GearMailer",
-    "config": {
-        "vendor-dir": "Vendor"
-    },
     "authors": [
         {
             "name": "Radig Soluções em TI",
