@@ -43,10 +43,6 @@ class EmailWorker {
 
         $SesEmail = SesClient::factory($credentials);
 
-        if (!empty($credentials['dkim'])) {
-            $SesEmail->setIdentityDkimEnabled(array('Identity' => $credentials['dkim'], 'DkimEnabled' => true));
-        }
-
         try {
             $SesEmail->sendRawEmail(array('RawMessage' => array('Data' => base64_encode($message))));
         } catch (MessageRejectedException $e) {
@@ -64,7 +60,7 @@ class EmailWorker {
  * @return array
  */
     protected function _getCredentials($data) {
-        $defaults = ['username' => null, 'password' => null, 'dkim' => null];
+        $defaults = ['username' => null, 'password' => null];
         $credentials = array_merge($defaults, $data['credentials']);
 
         $credentials['key'] = $credentials['username'];
