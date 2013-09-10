@@ -1,4 +1,5 @@
 <?php
+require(APP . 'Vendor/autoload.php');
 App::uses('Shell', 'Console');
 App::uses('EmailWorker', 'GearMailer.Vendor');
 /**

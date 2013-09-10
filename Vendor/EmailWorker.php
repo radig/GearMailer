@@ -69,6 +69,7 @@ class EmailWorker {
 
         $credentials['key'] = $credentials['username'];
         $credentials['secret'] = $credentials['password'];
+        $credentials['region'] = 'us-east-1'; // the only AWS region for SES
 
         unset($credentials['username'], $credentials['password']);
 
