@@ -24,7 +24,7 @@ class EmailWorker {
 
         while ($worker->work()) {
             if ($worker->returnCode() != GEARMAN_SUCCESS) {
-                throw new Exception("Job failed");
+                throw new Exception("Job failed: can't send emails.");
             }
         }
     }
@@ -44,7 +44,9 @@ class EmailWorker {
         $SesEmail = SesClient::factory($credentials);
 
         try {
+            echo date('Y-m-d H:i:s'), " Sending message...";
             $SesEmail->sendRawEmail(array('RawMessage' => array('Data' => base64_encode($message))));
+            echo date('Y-m-d H:i:s'), " Message sended!\n";
         } catch (MessageRejectedException $e) {
             error_log('Can\'t enqueue job for message: ' . print_r($e->getMessage(), true));
             return false;
