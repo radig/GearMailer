@@ -18,7 +18,7 @@ class GearTransport extends AbstractTransport {
  * @return boolean
  */
     public function send(CakeEmail $email) {
-        $headers = $email->getHeaders(array('from', 'sender', 'replyTo', 'readReceipt', 'returnPath', 'to', 'cc', 'subject'));
+        $headers = $email->getHeaders(array('from', 'sender', 'replyTo', 'readReceipt', 'returnPath', 'to', 'bcc', 'cc', 'subject'));
         $headers = $this->_headersToString($headers);
 
         $lines = $email->message();
