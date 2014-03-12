@@ -20,7 +20,7 @@ class EmailWorker {
     public function init() {
         $worker= new GearmanWorker();
         $worker->addServer();
-        $worker->addFunction("sendMail", array($this, "send"));
+        $worker->addFunction("sendMail", [$this, "send"]);
 
         while ($worker->work()) {
             if ($worker->returnCode() != GEARMAN_SUCCESS) {
@@ -38,14 +38,14 @@ class EmailWorker {
     public function send(GearmanJob $job) {
         $messageData = unserialize($job->workload());
 
-        $credentials = $this->_getCredentials($messageData);
+        $credentials = $this->_getCredentials($messageData['credentials']);
         $message = $messageData['message'];
 
         $SesEmail = SesClient::factory($credentials);
 
         try {
             echo date('[Y-m-d H:i:s]'), " Sending message...";
-            $SesEmail->sendRawEmail(array('RawMessage' => array('Data' => base64_encode($message))));
+            $SesEmail->sendRawEmail(['RawMessage' => ['Data' => base64_encode($message)]]);
             echo " | ", date('[Y-m-d H:i:s]'), " Message sended!\n";
         } catch (MessageRejectedException $e) {
             error_log('Can\'t enqueue job for message: ' . print_r($e->getMessage(), true));
@@ -62,14 +62,13 @@ class EmailWorker {
  * @return array
  */
     protected function _getCredentials($data) {
-        $defaults = ['username' => null, 'password' => null];
-        $credentials = array_merge($defaults, $data['credentials']);
+        $credentials = ['key' => null, 'secret' => null, 'region' => 'us-east-1'];
 
-        $credentials['key'] = $credentials['username'];
-        $credentials['secret'] = $credentials['password'];
-        $credentials['region'] = 'us-east-1'; // the only AWS region for SES
-
-        unset($credentials['username'], $credentials['password']);
+        foreach ($credentials as $field => $default) {
+            if (isset($data[$field])) {
+                $credentials[$field] = $data[$field];
+            }
+        }
 
         return $credentials;
     }

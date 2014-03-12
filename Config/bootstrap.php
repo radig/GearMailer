@@ -1,7 +1,7 @@
 <?php
 App::uses('CakeLog', 'Log');
-CakeLog::config('gearmailer', array(
+CakeLog::config('gearmailer', [
     'engine' => 'FileLog',
     'file' => 'gearmailer.log',
-    'scopes' => array('async_mail')
-));
+    'scopes' => ['async_mail']
+]);

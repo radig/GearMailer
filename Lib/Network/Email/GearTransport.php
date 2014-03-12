@@ -18,11 +18,11 @@ class GearTransport extends AbstractTransport {
  * @return boolean
  */
     public function send(CakeEmail $email) {
-        $headers = $email->getHeaders(array('from', 'sender', 'replyTo', 'readReceipt', 'returnPath', 'to', 'bcc', 'cc', 'subject'));
+        $headers = $email->getHeaders(['from', 'sender', 'replyTo', 'readReceipt', 'returnPath', 'to', 'bcc', 'cc', 'subject']);
         $headers = $this->_headersToString($headers);
 
         $lines = $email->message();
-        $messages = array();
+        $messages = [];
         foreach ($lines as $line) {
             if ((!empty($line)) && ($line[0] === '.')) {
                 $messages[] = '.' . $line;
@@ -38,10 +38,10 @@ class GearTransport extends AbstractTransport {
         $client = new GearmanClient();
         $client->addServer();
 
-        $emailData = array(
+        $emailData = [
             'credentials' => Configure::read('GearMailer.credentials'),
             'message' => $rawMessage
-        );
+        ];
 
         $client->doBackground('sendMail', serialize($emailData));
 

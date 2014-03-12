@@ -31,19 +31,19 @@ h2. Configuração
 Crie uma configuração de email com a seguinte configuração:
 
 <pre>
-    public $default = array(
-        'transport' => 'GearMailer.Gear'
-    );
+public $default = [
+    'transport' => 'GearMailer.Gear'
+];
 </pre>
 
 Em seu bootstrap.php, incluia as credenciais para envio de email através da API da AWS SES, da seguinte maneira:
 
 <pre>
-Configure::write('GearMailer.credentials', array(
-    'username' => 'sua chave AWS',
-    'password' => 'sua chave secreta AWS',
-    // 'dkim' => 'um email verificado para assinatura'
-);
+Configure::write('GearMailer.credentials', [
+    'key'    => 'sua chave AWS',
+    'secret' => 'sua chave secreta AWS'
+    'region' => ''
+]);
 </pre>
 
 Para ativar o Gearman Worker, que é quem efetivamente enviará o email, existem duas opções:
@@ -89,5 +89,5 @@ Basta fazer um envio de email normal utilizando o *CakeEmail*
 
 h2. Autor e Copyright
 
-* *Copyright 2013* "*Radig - Soluções em TI*":http://www.radig.com.br
+* *Copyright 2013-2014* "*Radig - Soluções em TI*":http://www.radig.com.br
 * Licença MIT - Isto quer dizer que o código está disponível sem nenhuma garantia, ao mesmo tempo que você pode usa-lo de forma isolada ou em conjunto com seu próprio código, desde que mantenha os créditos, execeto onde tiver explícito o contrário. Veja os detalhes no arquivo em anexo.
